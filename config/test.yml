@@ -1,6 +1,6 @@
 map:
   key1:
-    array: [ "item1", "item2", "item3" ]
-    int: 4
-    float: 5.6
+    array: [ "item10", "item20", "item30" ]
+    int: 40
+    float: 50.6
     bool: true

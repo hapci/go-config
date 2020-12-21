@@ -37,6 +37,8 @@ type TestStruct struct {
 }
 
 func TestUnmarshalFromFile(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		filename string
 		v        interface{}
@@ -44,7 +46,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 	tests := []struct {
 		name      string
 		args      args
-		wantErr   error
+		wantErr   bool
 		wantValue interface{}
 	}{
 		{
@@ -53,7 +55,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 				filename: "config/test.yaml",
 				v:        &TestConfig{},
 			},
-			wantErr: nil,
+			wantErr: false,
 			wantValue: &TestConfig{
 				Map: map[string]TestStruct{
 					"key1": {
@@ -71,7 +73,25 @@ func TestUnmarshalFromFile(t *testing.T) {
 				filename: "config/test.yml",
 				v:        &TestConfig{},
 			},
-			wantErr: nil,
+			wantErr: false,
+			wantValue: &TestConfig{
+				Map: map[string]TestStruct{
+					"key1": {
+						Array: []string{"item10", "item20", "item30"},
+						Int:   40,
+						Float: 50.6,
+						Bool:  true,
+					},
+				},
+			},
+		},
+		{
+			name: "decode toml",
+			args: args{
+				filename: "config/test.toml",
+				v:        &TestConfig{},
+			},
+			wantErr: false,
 			wantValue: &TestConfig{
 				Map: map[string]TestStruct{
 					"key1": {
@@ -83,11 +103,50 @@ func TestUnmarshalFromFile(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "decode json",
+			args: args{
+				filename: "config/test.json",
+				v:        &TestConfig{},
+			},
+			wantErr: false,
+			wantValue: &TestConfig{
+				Map: map[string]TestStruct{
+					"key1": {
+						Array: []string{"item1", "item2", "item3"},
+						Int:   4,
+						Float: 5.6,
+						Bool:  true,
+					},
+				},
+			},
+		},
+		{
+			name: "no file",
+			args: args{
+				filename: "config/wrong_file.json",
+				v:        &TestConfig{},
+			},
+			wantErr:   true,
+			wantValue: &TestConfig{},
+		},
+		{
+			name: "wrong format",
+			args: args{
+				filename: "config/wrong_format.yaml",
+				v:        &TestConfig{},
+			},
+			wantErr:   true,
+			wantValue: &TestConfig{Map: map[string]TestStruct{}},
+		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			err := UnmarshalFromFile(tt.args.filename, tt.args.v)
-			assert.Equal(t, tt.wantErr, err)
+			assert.Equal(t, tt.wantErr, err != nil)
 			assert.Equal(t, tt.wantValue, tt.args.v)
 		})
 	}

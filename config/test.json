@@ -1,0 +1,14 @@
+{
+  "map": {
+    "key1": {
+      "array": [
+        "item1",
+        "item2",
+        "item3"
+      ],
+      "int": 4,
+      "float": 5.6,
+      "bool": true
+    }
+  }
+}
