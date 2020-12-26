@@ -31,6 +31,9 @@ var (
 
 // UnmarshalFromFile decodes the file and assigns the decoded values
 // into the out value.
+//
+// Fields tagged with "mapstructure" will have the unmarshalled value of
+// the matching key.
 func UnmarshalFromFile(filename string, v interface{}) error {
 	readerLock.Lock()
 	defer readerLock.Unlock()
@@ -44,6 +47,16 @@ func UnmarshalFromFile(filename string, v interface{}) error {
 	return errors.Wrap(reader.Unmarshal(v), "decoding configuration")
 }
 
+// UnmarshalFromEnv parses the environment variables and stores the results
+// in the value pointed to by v. If v is nil or not a pointer to a struct,
+// UnmarshalFromEnv returns an env.ErrInvalidValue.
+//
+// Fields tagged with "env" will have the unmarshalled env value of the
+// matching key. If the tagged field is not exported, UnmarshalFromEnv
+// returns env.ErrUnexportedField.
+//
+// If the field has a type that is unsupported, UnmarshalFromEnv returns
+// env.ErrUnsupportedType.
 func UnmarshalFromEnv(v interface{}) error {
 	_, err := env.UnmarshalFromEnviron(v)
 	return err

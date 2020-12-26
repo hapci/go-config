@@ -32,7 +32,7 @@ type TestMap map[string]TestStruct
 type TestStruct struct {
 	Array []string `mapstructure:"array"`
 	Int   int      `mapstructure:"int" env:"int"`
-	Float float64  `mapstructure:"float"`
+	Float float64  `mapstructure:"float" env:"float"`
 	Bool  bool     `mapstructure:"bool" env:"bool,BOOL"`
 }
 
@@ -158,14 +158,16 @@ func TestUnmarshalFromEnv(t *testing.T) {
 	err := os.Setenv("int", "1")
 	assert.NoError(t, err)
 
-	// TODO: add float test
+	err = os.Setenv("float", "2.3")
+	assert.NoError(t, err)
 
 	err = os.Setenv("BOOL", "true")
 	assert.NoError(t, err)
 
 	wantCfg := &TestStruct{
-		Int:  1,
-		Bool: true,
+		Int:   1,
+		Float: 2.3,
+		Bool:  true,
 	}
 
 	err = UnmarshalFromEnv(cfg)

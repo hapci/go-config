@@ -93,7 +93,7 @@ linters:
     - gosimple
     - govet
     - gofumpt
-    - gofmt
+    - goimports
     - godot
     - ineffassign
     - interfacer
@@ -141,6 +141,7 @@ issues:
       linters:
         - gofumpt
         - gofmt
+        - goimports
     # Exclude some linters from running on swag documentation.
     - linters:
         - godot
