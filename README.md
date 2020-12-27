@@ -7,6 +7,11 @@
     /____/                                              /____/
 </pre>
 
+[![CI](https://github.com/hapci/go-config/workflows/CI/badge.svg)](https://github.com/hapci/go-config/actions?query=workflow%3ACI)
+[![Coverage Status](https://codecov.io/gh/hapci/go-config/branch/master/graph/badge.svg)](https://codecov.io/gh/hapci/go-config)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hapci/go-config)](https://goreportcard.com/report/github.com/hapci/go-config)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/hapci/go-config)](https://pkg.go.dev/github.com/hapci/go-config)
+
 __Simple and idiomatic parsing of configuration files and environment variables.__
 
 ### Installation
