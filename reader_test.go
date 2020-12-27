@@ -18,6 +18,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -52,7 +53,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 		{
 			name: "decode yaml",
 			args: args{
-				filename: "config/test.yaml",
+				filename: filepath.Join("config", "test.yaml"),
 				v:        &TestConfig{},
 			},
 			wantErr: false,
@@ -70,7 +71,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 		{
 			name: "decode yml",
 			args: args{
-				filename: "config/test.yml",
+				filename: filepath.Join("config", "test.yml"),
 				v:        &TestConfig{},
 			},
 			wantErr: false,
@@ -88,7 +89,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 		{
 			name: "decode toml",
 			args: args{
-				filename: "config/test.toml",
+				filename: filepath.Join("config", "test.toml"),
 				v:        &TestConfig{},
 			},
 			wantErr: false,
@@ -106,7 +107,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 		{
 			name: "decode json",
 			args: args{
-				filename: "config/test.json",
+				filename: filepath.Join("config", "test.json"),
 				v:        &TestConfig{},
 			},
 			wantErr: false,
@@ -124,7 +125,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 		{
 			name: "no file",
 			args: args{
-				filename: "config/wrong_file.json",
+				filename: filepath.Join("config", "wrong_file.json"),
 				v:        &TestConfig{},
 			},
 			wantErr:   true,
@@ -133,7 +134,7 @@ func TestUnmarshalFromFile(t *testing.T) {
 		{
 			name: "wrong format",
 			args: args{
-				filename: "config/wrong_format.yaml",
+				filename: filepath.Join("config", "wrong_format.yaml"),
 				v:        &TestConfig{},
 			},
 			wantErr:   true,
